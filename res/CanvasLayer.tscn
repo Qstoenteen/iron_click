@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dp7bx0rrf4de8"]
+[gd_scene load_steps=6 format=3 uid="uid://dp7bx0rrf4de8"]
 
-[ext_resource type="Script" path="res://canvas_layer.gd" id="1_2x2tw"]
+[ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_2x2tw"]
 [ext_resource type="PackedScene" uid="uid://cu04yb3uklmsn" path="res://Scenes/pickaxe.tscn" id="2_axu44"]
+[ext_resource type="PackedScene" uid="uid://cjhns70ufat85" path="res://Scenes/planet.tscn" id="3_5n7l3"]
+[ext_resource type="PackedScene" uid="uid://bfudmjds0mlr1" path="res://Scenes/mine_block.tscn" id="4_iq1xs"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0chcv"]
 
@@ -74,7 +76,21 @@ text = "1"
 
 [node name="pickaxe" parent="." instance=ExtResource("2_axu44")]
 layout_mode = 0
-offset_left = 509.0
-offset_top = 298.0
-offset_right = 573.0
-offset_bottom = 370.0
+offset_left = 449.0
+offset_top = 301.0
+offset_right = 513.0
+offset_bottom = 373.0
+
+[node name="planet" parent="." instance=ExtResource("3_5n7l3")]
+layout_mode = 0
+offset_left = 899.0
+offset_top = 158.0
+offset_right = 939.0
+offset_bottom = 198.0
+
+[node name="mine_block" parent="." instance=ExtResource("4_iq1xs")]
+layout_mode = 0
+offset_left = 598.0
+offset_top = 345.0
+offset_right = 638.0
+offset_bottom = 385.0
