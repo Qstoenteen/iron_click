@@ -4,11 +4,8 @@ var block_hp = 100
 var block_live = true
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func _ready():
 	pass
-
-
-
 
 func _process(_delta):
 	$Sprite2D/ProgressBar.value = block_hp

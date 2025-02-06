@@ -8,28 +8,20 @@ var mining = false
 var pickaxe_damage = 25
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
+func _ready() :
+	pass 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta):
 	pass
-	#$Sprite2D/pickaxeAnim.play(\"idle\")
-
-
-func _on_mouse_entered() -> void:
+func _on_mouse_entered():
 	pass
 	
-
 func _input(event):
 	if event is InputEventMouseButton:
 		mining = true
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			$Sprite2D/pickaxeAnim.play (\"mine\")
-			
-			
-	
 "
 
 [sub_resource type="Animation" id="Animation_xhrn2"]

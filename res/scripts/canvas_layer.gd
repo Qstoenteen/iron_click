@@ -79,7 +79,7 @@ func _on_generate_pressed():
 	update_resource_display()
 
 # Функция для выбора руды по шансу
-func get_random_ores() -> Array:
+func get_random_ores():
 	var dropped_ores = []  # Создаем пустой массив для выпавших руд
 	for ore in ores:  # Проходим по всем рудам
 		if randf() < ore.drop_chance:  # Проверяем, выпала ли руда
