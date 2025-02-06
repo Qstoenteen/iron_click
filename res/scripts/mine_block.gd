@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 
-func _process(delta):
+func _process(_delta):
 	$Sprite2D/ProgressBar.value = block_hp
 	if block_hp <= 0:
 		block_live = false

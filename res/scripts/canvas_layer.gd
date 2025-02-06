@@ -20,11 +20,7 @@ var stone_count = 0
 func _ready():
 	print("BABABA")
 	pass
-	
-	
-	
-	
-	
+
 	# Заполняем список руд
 	ores.append(iron_ore)
 	ores.append(silver_ore)
