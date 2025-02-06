@@ -1,21 +1,22 @@
 [gd_scene load_steps=6 format=3 uid="uid://bfudmjds0mlr1"]
 
 [ext_resource type="Texture2D" uid="uid://bc2rlku6rr3qj" path="res://Assets/grass.png" id="1_pvd6k"]
+[ext_resource type="Script" path="res://scripts/mine_block.gd" id="1_vtpil"]
 
-[sub_resource type="GDScript" id="GDScript_5p2b0"]
-script/source = "extends Container
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			$mine_block_animation.play (\"mine_block\")
-"
+[sub_resource type="Animation" id="Animation_4hdkm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_goqqo"]
 resource_name = "mine_block"
@@ -33,21 +34,6 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, 4), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_4hdkm"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t7jb3"]
 _data = {
 "RESET": SubResource("Animation_4hdkm"),
@@ -57,11 +43,20 @@ _data = {
 [node name="mine_block" type="Container"]
 offset_right = 40.0
 offset_bottom = 40.0
-script = SubResource("GDScript_5p2b0")
+script = ExtResource("1_vtpil")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
 texture = ExtResource("1_pvd6k")
+
+[node name="ProgressBar" type="ProgressBar" parent="Sprite2D"]
+offset_left = -8.66667
+offset_top = -18.0
+offset_right = 168.334
+offset_bottom = 9.0
+scale = Vector2(0.28, 0.226667)
+step = 1.0
+fill_mode = 1
 
 [node name="mine_block_animation" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")

@@ -6,6 +6,7 @@ var silver_ore = preload("res://Resource/Ores/Silver_Ore.tres")
 var gold_ore = preload("res://Resource/Ores/Gold_Ore.tres")
 var platinum_ore = preload("res://Resource/Ores/Platinum_Ore.tres")
 var stone = preload("res://Resource/Ores/Stone.tres")
+
 # Список всех доступных руд
 var ores = []
 
@@ -17,6 +18,13 @@ var platinum_ore_count = 0
 var stone_count = 0
 
 func _ready():
+	print("BABABA")
+	pass
+	
+	
+	
+	
+	
 	# Заполняем список руд
 	ores.append(iron_ore)
 	ores.append(silver_ore)
@@ -26,7 +34,7 @@ func _ready():
 	
 	# Настроим кнопку
 	$GenerateButton.text = "КЛИК"
-	$GenerateButton.pressed.connect(Callable(self, "_on_generate_pressed"))
+	$GenerateButton.pressed.connect(Callable(self, "_Ore_mined"))
 	
 	# Изначальный текст для результатов
 	$ResultLabel.text = "Нажмите кнопку, чтобы добыть руду."
@@ -35,8 +43,22 @@ func _ready():
 	update_resource_display()
 
 # Обработка нажатия кнопки
+func _Ore_mined():
+	var block = $"../mine_block"
+	#print(block.block_hp)
+	#print(block.block_live)
+	if block.block_live == false:
+		#print("БЛОК РАЗРУШЕН")
+		block.block_hp =+ 100
+		block.block_live = true
+		_on_generate_pressed()
+		
+	
 func _on_generate_pressed():
+	
 	var dropped_ores = get_random_ores()
+	
+		
 	if dropped_ores.size() > 0:  # Проверяем, выпали ли какие-то руды
 		var ore_names = []  # Список имен выпавших руд
 		for dropped_ore in dropped_ores:
@@ -70,6 +92,7 @@ func get_random_ores() -> Array:
 
 # Обновление отображения количества руды
 func update_resource_display():
+	
 				# Обновляем отображение для Камня
 	if stone_count > 0:
 		$"../VBoxContainer/StoneLabel".text = "Stone: %d" % stone_count
