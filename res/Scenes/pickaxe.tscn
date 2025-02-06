@@ -1,0 +1,107 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu04yb3uklmsn"]
+
+[ext_resource type="Texture2D" uid="uid://bcv0pv6441kul" path="res://Assets/pickaxes1.png" id="1_hmn3y"]
+
+[sub_resource type="GDScript" id="GDScript_rmxig"]
+script/source = "extends Container
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_mouse_entered() -> void:
+	print(\"ВЫ НАВЕЛИ НА КИРКУ\")
+	
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			$Sprite2D/pickaxeAnim.play (\"mine\")
+	
+"
+
+[sub_resource type="Animation" id="Animation_137co"]
+resource_name = "mine"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.1),
+"transitions": PackedFloat32Array(0.183011, 0.189465, 5.85634),
+"update": 0,
+"values": [0.0, 1.89717, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(31, 63), Vector2(28, 65), Vector2(31, 63)]
+}
+
+[sub_resource type="Animation" id="Animation_xhrn2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(31, 63)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_diw5e"]
+_data = {
+"RESET": SubResource("Animation_xhrn2"),
+"mine": SubResource("Animation_137co")
+}
+
+[node name="pickaxe" type="Container"]
+offset_right = 64.0
+offset_bottom = 72.0
+script = SubResource("GDScript_rmxig")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(31, 63)
+scale = Vector2(3, 3)
+texture = ExtResource("1_hmn3y")
+offset = Vector2(0, -26)
+
+[node name="pickaxeAnim" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_diw5e")
+}
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

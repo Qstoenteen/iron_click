@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp7bx0rrf4de8"]
+[gd_scene load_steps=4 format=3 uid="uid://dp7bx0rrf4de8"]
 
 [ext_resource type="Script" path="res://canvas_layer.gd" id="1_2x2tw"]
+[ext_resource type="PackedScene" uid="uid://cu04yb3uklmsn" path="res://Scenes/pickaxe.tscn" id="2_axu44"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0chcv"]
 
@@ -11,15 +12,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="TEMP_LABEl" type="Label" parent="."]
-layout_mode = 0
-offset_left = 417.0
-offset_top = 203.0
-offset_right = 590.0
-offset_bottom = 316.0
-text = "TEST LABEl
-"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("1_2x2tw")
@@ -79,3 +71,10 @@ text = "1"
 [node name="GoldOreLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "1"
+
+[node name="pickaxe" parent="." instance=ExtResource("2_axu44")]
+layout_mode = 0
+offset_left = 509.0
+offset_top = 298.0
+offset_right = 573.0
+offset_bottom = 370.0

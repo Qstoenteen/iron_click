@@ -14,3 +14,7 @@ config/name="Рудокоп_3"
 run/main_scene="res://CanvasLayer.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
