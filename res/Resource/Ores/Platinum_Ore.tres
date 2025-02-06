@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Ore" load_steps=2 format=3 uid="uid://ctx2y0od1caku"]
+
+[ext_resource type="Script" path="res://Resource/Ores/Ore_Class.gd" id="1_qcy1e"]
+
+[resource]
+script = ExtResource("1_qcy1e")
+name = "Платиновая руда"
+weight = 4.0
+price = 15.0
+drop_chance = 0.001
+rarity = "Обычная"
+quality = 2
+type = "Металлическая"
+color = Color(0.642382, 0.884772, 0.993335, 1)
+description = "Описание руды."
+max_stack = 64
+energy = 0.0

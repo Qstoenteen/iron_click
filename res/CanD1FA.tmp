@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://dp7bx0rrf4de8"]
+
+[ext_resource type="Script" path="res://canvas_layer.gd" id="1_2x2tw"]
+[ext_resource type="Script" path="res://v_box_container.gd" id="2_i5a34"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_0chcv"]
+
+[node name="CanvasLayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_2x2tw")
+
+[node name="GenerateButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.5
+offset_top = -41.0
+offset_right = 112.5
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Клик"
+icon = SubResource("CanvasTexture_0chcv")
+metadata/_edit_use_anchors_ = true
+
+[node name="ResultLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 49.0
+offset_top = -54.0
+offset_right = 287.0
+offset_bottom = 54.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -38.5
+offset_right = 43.0
+offset_bottom = 38.5
+grow_vertical = 2
+script = ExtResource("2_i5a34")
+
+[node name="IronOreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Iron"
+
+[node name="SilverOreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Silver"
+
+[node name="GoldOreLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Gold
+"

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://mhrudxrhlfyk"]
+
+[ext_resource type="Script" path="res://Resource/Ores/Ore_Class.gd" id="1_yaqsh"]
+
+[node name="Ore_Class" type="Node2D"]
+script = ExtResource("1_yaqsh")

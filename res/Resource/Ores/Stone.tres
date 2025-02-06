@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Ore" load_steps=2 format=3 uid="uid://d1brkh2mrv7ef"]
+
+[ext_resource type="Script" path="res://Resource/Ores/Ore_Class.gd" id="1_u5o2x"]
+
+[resource]
+script = ExtResource("1_u5o2x")
+name = "Камень"
+weight = 1.0
+price = 0.1
+drop_chance = 0.7
+rarity = "Треш"
+quality = 0
+type = "Каменная"
+color = Color(0.282748, 0.197751, 0.0801027, 1)
+description = "Описание руды."
+max_stack = 64
+energy = 0.0

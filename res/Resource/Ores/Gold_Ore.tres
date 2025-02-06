@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Ore" load_steps=2 format=3 uid="uid://o6exq3tqegk8"]
+
+[ext_resource type="Script" path="res://Resource/Ores/Ore_Class.gd" id="1_jukdr"]
+
+[resource]
+script = ExtResource("1_jukdr")
+name = "Золотая руда"
+weight = 5.0
+price = 25.0
+drop_chance = 1.0
+rarity = "Средняя"
+quality = 3
+type = "Металлическая"
+color = Color(1, 1, 0, 1)
+description = "Описание руды."
+max_stack = 64
+energy = 0.0
