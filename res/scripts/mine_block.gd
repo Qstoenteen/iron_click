@@ -2,6 +2,7 @@ extends Container
 
 var block_hp = 100
 var block_live = true
+var depth = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

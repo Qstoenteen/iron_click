@@ -67,13 +67,13 @@ text = "Grass Planet"
 label_settings = SubResource("LabelSettings_jeksi")
 horizontal_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Planet_Sprite" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
 texture = ExtResource("2_k4qty")
 script = SubResource("GDScript_v2bfj")
 
 [node name="planet_anim" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
+root_node = NodePath("../Planet_Sprite")
 libraries = {
 "": SubResource("AnimationLibrary_hrpk7")
 }

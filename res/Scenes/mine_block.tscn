@@ -63,3 +63,5 @@ root_node = NodePath("../Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_t7jb3")
 }
+
+[node name="Null_sprite" type="Sprite2D" parent="."]

@@ -7,6 +7,10 @@ var gold_ore = preload("res://Resource/Ores/Gold_Ore.tres")
 var platinum_ore = preload("res://Resource/Ores/Platinum_Ore.tres")
 var stone = preload("res://Resource/Ores/Stone.tres")
 
+#Загрузка переменных:
+
+
+
 # Список всех доступных руд
 var ores = []
 
@@ -18,6 +22,7 @@ var platinum_ore_count = 0
 var stone_count = 0
 
 func _ready():
+	
 	print("BABABA")
 	pass
 
@@ -40,13 +45,26 @@ func _ready():
 
 # Обработка нажатия кнопки
 func _Ore_mined():
+
 	var block = $"../mine_block"
-	#print(block.block_hp)
-	#print(block.block_live)
+	var metric = "m"
+	if block.depth < 1000:
+		var depth_value = block.depth *1
+	if block.depth > 1000:
+		metric = "km"
+	if block.depth < 1000:
+		$"../depth_label".text = ("Глубина: " + str(block.depth) + metric)
+	if block.depth > 1000:
+		$"../depth_label".text = ("Глубина: " + str(block.depth/1000) + metric)
+		
+	
+	
 	if block.block_live == false:
 		#print("БЛОК РАЗРУШЕН")
 		block.block_hp =+ 100
 		block.block_live = true
+		block.depth += 50
+		print(block.depth)
 		_on_generate_pressed()
 		
 	
