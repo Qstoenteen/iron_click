@@ -96,6 +96,7 @@ offset_right = 638.0
 offset_bottom = 385.0
 
 [node name="depth_label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 645.0
 offset_top = 323.0
 offset_right = 810.0

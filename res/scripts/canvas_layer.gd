@@ -22,8 +22,8 @@ var platinum_ore_count = 0
 var stone_count = 0
 
 func _ready():
-	
-	print("BABABA")
+	var pickaxe = $"../pickaxe"
+	var block_tick = $"../mine_block"
 	pass
 
 	# Заполняем список руд
@@ -34,8 +34,14 @@ func _ready():
 	ores.append(stone)
 	
 	# Настроим кнопку
+	
 	$GenerateButton.text = "КЛИК"
+	
+	$GenerateButton.pressed.connect(pickaxe._pickaxe_tick) #Анимация кирки
+	$GenerateButton.pressed.connect(block_tick._block_tick) #Анимация блока
 	$GenerateButton.pressed.connect(Callable(self, "_Ore_mined"))
+	
+	
 	
 	# Изначальный текст для результатов
 	$ResultLabel.text = "Нажмите кнопку, чтобы добыть руду."
@@ -45,26 +51,24 @@ func _ready():
 
 # Обработка нажатия кнопки
 func _Ore_mined():
-
+	
 	var block = $"../mine_block"
 	var metric = "m"
-	if block.depth < 1000:
-		var depth_value = block.depth *1
-	if block.depth > 1000:
-		metric = "km"
+	
 	if block.depth < 1000:
 		$"../depth_label".text = ("Глубина: " + str(block.depth) + metric)
 	if block.depth > 1000:
+		metric = "km"
 		$"../depth_label".text = ("Глубина: " + str(block.depth/1000) + metric)
 		
-	
-	
 	if block.block_live == false:
+		block._particles_tick()
 		#print("БЛОК РАЗРУШЕН")
 		block.block_hp =+ 100
 		block.block_live = true
 		block.depth += 50
-		print(block.depth)
+		
+		#print(block.depth)
 		_on_generate_pressed()
 		
 	

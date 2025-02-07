@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfudmjds0mlr1"]
+[gd_scene load_steps=8 format=3 uid="uid://bfudmjds0mlr1"]
 
 [ext_resource type="Texture2D" uid="uid://bc2rlku6rr3qj" path="res://Assets/grass.png" id="1_pvd6k"]
 [ext_resource type="Script" path="res://scripts/mine_block.gd" id="1_vtpil"]
+[ext_resource type="AudioStream" uid="uid://blkqxk7o6xpvu" path="res://sound/explosion.wav" id="3_0e2m5"]
 
 [sub_resource type="Animation" id="Animation_4hdkm"]
 length = 0.001
@@ -40,23 +41,18 @@ _data = {
 "mine_block": SubResource("Animation_goqqo")
 }
 
+[sub_resource type="Gradient" id="Gradient_j6hi5"]
+colors = PackedColorArray(0.26783, 0.0823958, 0.0550882, 1, 0.409009, 0.334538, 0.289069, 1)
+
 [node name="mine_block" type="Container"]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_vtpil")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(3, 3)
 texture = ExtResource("1_pvd6k")
-
-[node name="ProgressBar" type="ProgressBar" parent="Sprite2D"]
-offset_left = -8.66667
-offset_top = -18.0
-offset_right = 168.334
-offset_bottom = 9.0
-scale = Vector2(0.28, 0.226667)
-step = 1.0
-fill_mode = 1
 
 [node name="mine_block_animation" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
@@ -65,3 +61,38 @@ libraries = {
 }
 
 [node name="Null_sprite" type="Sprite2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="Null_sprite"]
+offset_left = -29.0
+offset_top = -47.0
+offset_right = 179.0
+offset_bottom = -20.0
+scale = Vector2(0.581644, 0.609732)
+step = 1.0
+fill_mode = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.4
+speed_scale = 0.38
+randomness = 0.45
+fixed_fps = 12
+emission_shape = 1
+emission_sphere_radius = 39.15
+spread = 180.0
+gravity = Vector2(0, 2)
+initial_velocity_min = 33.65
+initial_velocity_max = 240.38
+linear_accel_max = 100.0
+scale_amount_min = 0.0
+scale_amount_max = 10.61
+color_ramp = SubResource("Gradient_j6hi5")
+
+[node name="Timer" type="Timer" parent="CPUParticles2D"]
+one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0e2m5")
+
+[connection signal="finished" from="CPUParticles2D" to="." method="_on_cpu_particles_2d_finished"]
