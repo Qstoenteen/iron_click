@@ -6,6 +6,7 @@ var silver_ore = preload("res://Resource/Ores/Silver_Ore.tres")
 var gold_ore = preload("res://Resource/Ores/Gold_Ore.tres")
 var platinum_ore = preload("res://Resource/Ores/Platinum_Ore.tres")
 var stone = preload("res://Resource/Ores/Stone.tres")
+#var storage = preload("res://Scenes/storage_script.gd")
 
 #Загрузка переменных:
 
@@ -24,11 +25,21 @@ var stone_count = 0
 
 
 func set_ore_chance():
-	iron_ore.drop_chance += iron_ore.ratio_chance
-	silver_ore.drop_chance += silver_ore.ratio_chance
-	gold_ore.drop_chance += gold_ore.ratio_chance
-	platinum_ore.drop_chance += platinum_ore.ratio_chance
-	stone.drop_chance += stone.ratio_chance
+	var kf = $"../mine_block"
+	
+	stone.drop_chance += stone.ratio_chance * kf.depth
+	iron_ore.drop_chance += iron_ore.ratio_chance * kf.depth/10
+	silver_ore.drop_chance += silver_ore.ratio_chance * kf.depth/100
+	gold_ore.drop_chance += gold_ore.ratio_chance * kf.depth/100
+	platinum_ore.drop_chance += platinum_ore.ratio_chance * kf.depth/150
+	
+	
+	print("Шанс камня: ", stone.drop_chance)
+	print("Шанс железа: ", iron_ore.drop_chance)
+	print("Шанс серебра: ", silver_ore.drop_chance)
+	print("Шанс золото: ", gold_ore.drop_chance)
+	print("Шанс платины  ", platinum_ore.drop_chance)
+	print("")
 	
 	
 	
@@ -36,7 +47,8 @@ func set_ore_chance():
 func _ready():
 	var pickaxe = $"../pickaxe"
 	var block_tick = $"../mine_block"
-	pass
+	
+	#pass
 
 	# Заполняем список руд
 	ores.append(iron_ore)
@@ -66,6 +78,8 @@ func _Ore_mined():
 	
 	var block = $"../mine_block"
 	var metric = "m"
+
+
 	
 	if block.depth < 1000:
 		$"../depth_label".text = ("Глубина: " + str(block.depth) + metric)
@@ -79,7 +93,8 @@ func _Ore_mined():
 		#print("БЛОК РАЗРУШЕН")
 		block.block_hp =+ 100
 		block.block_live = true
-		block.depth += 50
+		block.depth += 1
+		
 		
 		#print(block.depth)
 		_on_generate_pressed()
@@ -89,6 +104,8 @@ func _on_generate_pressed():
 	
 	var dropped_ores = get_random_ores()
 	
+			
+			
 		
 	if dropped_ores.size() > 0:  # Проверяем, выпали ли какие-то руды
 		var ore_names = []  # Список имен выпавших руд
@@ -96,6 +113,7 @@ func _on_generate_pressed():
 			ore_names.append(dropped_ore.name)
 			if dropped_ore == stone:
 				stone_count += 1
+				
 			elif dropped_ore == iron_ore:
 				iron_ore_count += 1
 			elif dropped_ore == silver_ore:

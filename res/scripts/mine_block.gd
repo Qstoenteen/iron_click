@@ -46,7 +46,7 @@ func _block_tick():
 		
 	if block_hp > 100:
 		block_hp = 100
-	print(block_hp)
+	#print(block_hp)
 	
 func _particles_tick():
 	pass
