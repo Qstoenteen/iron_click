@@ -21,6 +21,18 @@ var gold_ore_count = 0
 var platinum_ore_count = 0
 var stone_count = 0
 
+
+
+func set_ore_chance():
+	iron_ore.drop_chance += iron_ore.ratio_chance
+	silver_ore.drop_chance += silver_ore.ratio_chance
+	gold_ore.drop_chance += gold_ore.ratio_chance
+	platinum_ore.drop_chance += platinum_ore.ratio_chance
+	stone.drop_chance += stone.ratio_chance
+	
+	
+	
+	
 func _ready():
 	var pickaxe = $"../pickaxe"
 	var block_tick = $"../mine_block"
@@ -61,6 +73,7 @@ func _Ore_mined():
 		metric = "km"
 		$"../depth_label".text = ("Глубина: " + str(block.depth/1000) + metric)
 		
+		
 	if block.block_live == false:
 		block._particles_tick()
 		#print("БЛОК РАЗРУШЕН")
@@ -70,8 +83,8 @@ func _Ore_mined():
 		
 		#print(block.depth)
 		_on_generate_pressed()
+		set_ore_chance()
 		
-	
 func _on_generate_pressed():
 	
 	var dropped_ores = get_random_ores()
@@ -91,7 +104,7 @@ func _on_generate_pressed():
 				gold_ore_count += 1
 			elif dropped_ore == platinum_ore:
 				platinum_ore_count += 1
-		
+			
 		# Выводим список всех выпавших руд
 		$ResultLabel.text = "Вы получили: %s!" % ", ".join(ore_names)
 	else:
@@ -99,7 +112,7 @@ func _on_generate_pressed():
 	
 	# Обновляем отображение количества руды
 	update_resource_display()
-
+	
 # Функция для выбора руды по шансу
 func get_random_ores():
 	var dropped_ores = []  # Создаем пустой массив для выпавших руд

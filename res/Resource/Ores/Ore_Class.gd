@@ -14,3 +14,4 @@ class_name Ore
 @export var max_stack: int = 64
 @export var energy: float = 0.0
 @export var texture: Texture2D = null # Новое свойство для текстуры
+@export var ratio_chance: float = 0.5
