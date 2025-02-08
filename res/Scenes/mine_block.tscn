@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfudmjds0mlr1"]
+[gd_scene load_steps=13 format=3 uid="uid://bfudmjds0mlr1"]
 
-[ext_resource type="Texture2D" uid="uid://bc2rlku6rr3qj" path="res://Assets/grass.png" id="1_pvd6k"]
 [ext_resource type="Script" path="res://scripts/mine_block.gd" id="1_vtpil"]
+[ext_resource type="Texture2D" uid="uid://dcpoqvg0d152n" path="res://Assets/stone_sheet.png" id="2_kybmh"]
 [ext_resource type="AudioStream" uid="uid://blkqxk7o6xpvu" path="res://sound/explosion.wav" id="3_0e2m5"]
 
-[sub_resource type="Animation" id="Animation_4hdkm"]
+[sub_resource type="Animation" id="Animation_a17qc"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -19,8 +19,8 @@ tracks/0/keys = {
 "values": [Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_goqqo"]
-resource_name = "mine_block"
+[sub_resource type="Animation" id="Animation_t7xvh"]
+resource_name = "block_mine"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -32,14 +32,50 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0333333, 0.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 4), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, 8.285), Vector2(0, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_t7jb3"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shymu"]
 _data = {
-"RESET": SubResource("Animation_4hdkm"),
-"mine_block": SubResource("Animation_goqqo")
+"RESET": SubResource("Animation_a17qc"),
+"block_mine": SubResource("Animation_t7xvh")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6scy"]
+atlas = ExtResource("2_kybmh")
+region = Rect2(3, 0, 25, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1uit"]
+atlas = ExtResource("2_kybmh")
+region = Rect2(28, 0, 25, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvsa2"]
+atlas = ExtResource("2_kybmh")
+region = Rect2(53, 0, 25, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xndg"]
+atlas = ExtResource("2_kybmh")
+region = Rect2(78, 0, 25, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_27w1n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6scy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1uit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvsa2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xndg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="Gradient" id="Gradient_j6hi5"]
 colors = PackedColorArray(0.26783, 0.0823958, 0.0550882, 1, 0.409009, 0.334538, 0.289069, 1)
@@ -49,16 +85,15 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_vtpil")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(3, 3)
-texture = ExtResource("1_pvd6k")
-
-[node name="mine_block_animation" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
+[node name="Block_mine_animation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
 libraries = {
-"": SubResource("AnimationLibrary_t7jb3")
+"": SubResource("AnimationLibrary_shymu")
 }
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_27w1n")
 
 [node name="Null_sprite" type="Sprite2D" parent="."]
 
@@ -88,9 +123,6 @@ linear_accel_max = 100.0
 scale_amount_min = 0.0
 scale_amount_max = 10.61
 color_ramp = SubResource("Gradient_j6hi5")
-
-[node name="Timer" type="Timer" parent="CPUParticles2D"]
-one_shot = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_0e2m5")
