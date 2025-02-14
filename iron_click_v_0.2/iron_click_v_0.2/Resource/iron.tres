@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Ore" load_steps=2 format=3 uid="uid://bxkfd7rbwd47q"]
+
+[ext_resource type="Script" path="res://Scripts/Ore_Class.gd" id="1_o03re"]
+
+[resource]
+script = ExtResource("1_o03re")
+name = "iron_ore"
+drop_chance = 0.5
