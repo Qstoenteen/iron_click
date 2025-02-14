@@ -13,12 +13,17 @@ func _ready():
 	ores.append(iron_ore)
 	ores.append(gold_ore)
 	ores.append(platinum_ore)
-	
 	var button = $Mine_button
 	button.pressed.connect(_click_mine)
 	
+	
 func _click_mine():
+	var tester = $VBoxContainer
+	tester.test_print()
 	_on_generate_pressed()
+
+	tester.add_label(iron_ore_count)
+	print("CLICKED")
 	
 func _on_generate_pressed():
 	var dropped_ores = get_random_ores()
