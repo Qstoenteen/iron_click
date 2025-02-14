@@ -1,48 +1,25 @@
 extends CanvasLayer
 
-# Загрузка руд
 var iron_ore = preload("res://Resource/Ores/Iron_Ore.tres")
 var silver_ore = preload("res://Resource/Ores/Silver_Ore.tres")
 var gold_ore = preload("res://Resource/Ores/Gold_Ore.tres")
 var platinum_ore = preload("res://Resource/Ores/Platinum_Ore.tres")
 var stone = preload("res://Resource/Ores/Stone.tres")
-#var storage = preload("res://Scenes/storage_script.gd")
 
-#Загрузка переменных:
-
-
-
-# Список всех доступных руд
 var ores = []
 
-# Количество руды
+var stone_count = 0
 var iron_ore_count = 0
 var silver_ore_count = 0
 var gold_ore_count = 0
 var platinum_ore_count = 0
-var stone_count = 0
-
-
 
 func set_ore_chance():
-	var kf = $"../mine_block"
-	
-	stone.drop_chance += stone.ratio_chance * kf.depth
-	iron_ore.drop_chance += iron_ore.ratio_chance * kf.depth/10
-	silver_ore.drop_chance += silver_ore.ratio_chance * kf.depth/100
-	gold_ore.drop_chance += gold_ore.ratio_chance * kf.depth/100
-	platinum_ore.drop_chance += platinum_ore.ratio_chance * kf.depth/150
-	
-	
-	print("Шанс камня: ", stone.drop_chance)
-	print("Шанс железа: ", iron_ore.drop_chance)
-	print("Шанс серебра: ", silver_ore.drop_chance)
-	print("Шанс золото: ", gold_ore.drop_chance)
-	print("Шанс платины  ", platinum_ore.drop_chance)
-	print("")
-	
-	
-	
+	stone.drop_chance += stone.ratio_chance 
+	iron_ore.drop_chance += iron_ore.ratio_chance 
+	silver_ore.drop_chance += silver_ore.ratio_chance 
+	gold_ore.drop_chance += gold_ore.ratio_chance 
+	platinum_ore.drop_chance += platinum_ore.ratio_chance 
 	
 func _ready():
 	var pickaxe = $"../pickaxe"
@@ -57,17 +34,11 @@ func _ready():
 	ores.append(platinum_ore)
 	ores.append(stone)
 	
-	# Настроим кнопку
-	
+	# КНОПКА
 	$GenerateButton.text = "КЛИК"
-	
 	$GenerateButton.pressed.connect(pickaxe._pickaxe_tick) #Анимация кирки
 	$GenerateButton.pressed.connect(block_tick._block_tick) #Анимация блока
 	$GenerateButton.pressed.connect(Callable(self, "_Ore_mined"))
-	
-	
-	
-	# Изначальный текст для результатов
 	$ResultLabel.text = "Нажмите кнопку, чтобы добыть руду."
 	
 	# Обновление UI с количеством руды
@@ -75,45 +46,29 @@ func _ready():
 
 # Обработка нажатия кнопки
 func _Ore_mined():
-	
 	var block = $"../mine_block"
 	var metric = "m"
-
-
-	
 	if block.depth < 1000:
 		$"../depth_label".text = ("Глубина: " + str(block.depth) + metric)
 	if block.depth > 1000:
 		metric = "km"
 		$"../depth_label".text = ("Глубина: " + str(block.depth/1000) + metric)
-		
-		
 	if block.block_live == false:
 		block._particles_tick()
-		#print("БЛОК РАЗРУШЕН")
 		block.block_hp =+ 100
 		block.block_live = true
-		block.depth += 1
-		
-		
-		#print(block.depth)
+		block.depth += 1		
 		_on_generate_pressed()
 		set_ore_chance()
 		
 func _on_generate_pressed():
-	
 	var dropped_ores = get_random_ores()
-	
-			
-			
-		
 	if dropped_ores.size() > 0:  # Проверяем, выпали ли какие-то руды
 		var ore_names = []  # Список имен выпавших руд
 		for dropped_ore in dropped_ores:
 			ore_names.append(dropped_ore.name)
 			if dropped_ore == stone:
 				stone_count += 1
-				
 			elif dropped_ore == iron_ore:
 				iron_ore_count += 1
 			elif dropped_ore == silver_ore:
@@ -122,16 +77,13 @@ func _on_generate_pressed():
 				gold_ore_count += 1
 			elif dropped_ore == platinum_ore:
 				platinum_ore_count += 1
-			
 		# Выводим список всех выпавших руд
 		$ResultLabel.text = "Вы получили: %s!" % ", ".join(ore_names)
 	else:
 		$ResultLabel.text = "Ничего не выпало."
-	
 	# Обновляем отображение количества руды
 	update_resource_display()
 	
-# Функция для выбора руды по шансу
 func get_random_ores():
 	var dropped_ores = []  # Создаем пустой массив для выпавших руд
 	for ore in ores:  # Проходим по всем рудам
@@ -141,30 +93,24 @@ func get_random_ores():
 
 # Обновление отображения количества руды
 func update_resource_display():
-	
 				# Обновляем отображение для Камня
 	if stone_count > 0:
 		$"../VBoxContainer/StoneLabel".text = "Stone: %d" % stone_count
 		$"../VBoxContainer/StoneLabel".visible = true
 	else:
 		$"../VBoxContainer/StoneLabel".visible = false
-	
 	# Обновляем отображение для Железной руды
 	if iron_ore_count > 0:
 		$"../VBoxContainer/IronOreLabel".text = "I: %d" % iron_ore_count
 		$"../VBoxContainer/IronOreLabel".visible = true
 	else:
 		$"../VBoxContainer/IronOreLabel".visible = false
-	
-
-	
 	# Обновляем отображение для Золотой руды
 	if gold_ore_count > 0:
 		$"../VBoxContainer/GoldOreLabel".text = "G: %d" % gold_ore_count
 		$"../VBoxContainer/GoldOreLabel".visible = true
 	else:
 		$"../VBoxContainer/GoldOreLabel".visible = false
-		
 			# Обновляем отображение для Платиновой руды
 	if platinum_ore_count > 0:
 		$"../VBoxContainer/PlatinumOreLabel".text = "P: %d" % platinum_ore_count
