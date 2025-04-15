@@ -1,32 +1,34 @@
 extends CanvasLayer
 
+# Ресурсы
 var iron_ore = preload("res://Resource/Ores/Iron_Ore.tres")
 var silver_ore = preload("res://Resource/Ores/Silver_Ore.tres")
 var gold_ore = preload("res://Resource/Ores/Gold_Ore.tres")
 var platinum_ore = preload("res://Resource/Ores/Platinum_Ore.tres")
 var stone = preload("res://Resource/Ores/Stone.tres")
 
+# Переменные
 var ores = []
-
-var stone_count = 0
+var stone_count = 55
 var iron_ore_count = 0
 var silver_ore_count = 0
 var gold_ore_count = 0
 var platinum_ore_count = 0
+var miners = 0  
+var hire_cost = 10 
 
-func set_ore_chance():
-	stone.drop_chance += stone.ratio_chance 
-	iron_ore.drop_chance += iron_ore.ratio_chance 
-	silver_ore.drop_chance += silver_ore.ratio_chance 
-	gold_ore.drop_chance += gold_ore.ratio_chance 
-	platinum_ore.drop_chance += platinum_ore.ratio_chance 
-	
+@onready var mining_timer = $MiningTimer
+@onready var generate_button = $GenerateButton
+
+# Новые переменные для управления интервалом
+var base_interval = 1.0  # Начальный интервал (1 секунда)
+var min_interval = 0.1   # Минимальный интервал
+var interval_step = 0.1  # Шаг уменьшения интервала
+
 func _ready():
 	var pickaxe = $"../pickaxe"
 	var block_tick = $"../mine_block"
 	
-	#pass
-
 	# Заполняем список руд
 	ores.append(iron_ore)
 	ores.append(silver_ore)
@@ -34,17 +36,60 @@ func _ready():
 	ores.append(platinum_ore)
 	ores.append(stone)
 	
-	# КНОПКА
-	$GenerateButton.text = "КЛИК"
-	$GenerateButton.pressed.connect(pickaxe._pickaxe_tick) #Анимация кирки
-	$GenerateButton.pressed.connect(block_tick._block_tick) #Анимация блока
-	$GenerateButton.pressed.connect(Callable(self, "_Ore_mined"))
+	# Настройка кнопки добычи
+	generate_button.text = "КЛИК"
+	generate_button.pressed.connect(pickaxe._pickaxe_tick)
+	generate_button.pressed.connect(block_tick._block_tick)
+	generate_button.pressed.connect(Callable(self, "_Ore_mined"))
 	$ResultLabel.text = "Нажмите кнопку, чтобы добыть руду."
 	
-	# Обновление UI с количеством руды
+	# Настройка кнопки найма
+	$HireButton.text = "Нанять шахтера (%d камня)" % hire_cost
+	$HireButton.pressed.connect(_on_hire_button_pressed)
+	
+	# Запуск таймера автоматической добычи
+	mining_timer.timeout.connect(_on_mining_timer_timeout)
+	mining_timer.start(base_interval)  # Запускаем с базовым интервалом
+	
 	update_resource_display()
 
-# Обработка нажатия кнопки
+# Наем шахтера
+func _on_hire_button_pressed():
+	if stone_count >= hire_cost:
+		stone_count -= hire_cost
+		miners += 1
+		hire_cost += 5
+		$HireButton.text = "Нанять шахтера (%d камня)" % hire_cost
+		update_resource_display()
+		$ResultLabel.text = "Нанят шахтер! Всего шахтеров: %d" % miners
+		
+		# Обновляем интервал таймера
+		update_mining_interval()
+	else:
+		$ResultLabel.text = "Недостаточно камня!"
+
+# Обновление интервала добычи
+func update_mining_interval():
+	var new_interval = max(min_interval, base_interval - (miners * interval_step))
+	mining_timer.wait_time = new_interval
+	mining_timer.start()  # Перезапускаем таймер с новым интервалом
+	print("Интервал добычи обновлен: ", new_interval, " сек")  # Для отладки
+
+func _on_mining_timer_timeout():
+	if miners > 0:
+		# Имитируем нажатие кнопки "КЛИК" для каждого шахтера
+		for i in range(miners):
+			generate_button.emit_signal("pressed")
+		update_resource_display()
+		
+		
+func set_ore_chance():
+	stone.drop_chance += stone.ratio_chance 
+	iron_ore.drop_chance += iron_ore.ratio_chance 
+	silver_ore.drop_chance += silver_ore.ratio_chance 
+	gold_ore.drop_chance += gold_ore.ratio_chance 
+	platinum_ore.drop_chance += platinum_ore.ratio_chance 
+
 func _Ore_mined():
 	var block = $"../mine_block"
 	var metric = "m"
@@ -63,8 +108,8 @@ func _Ore_mined():
 		
 func _on_generate_pressed():
 	var dropped_ores = get_random_ores()
-	if dropped_ores.size() > 0:  # Проверяем, выпали ли какие-то руды
-		var ore_names = []  # Список имен выпавших руд
+	if dropped_ores.size() > 0:
+		var ore_names = []
 		for dropped_ore in dropped_ores:
 			ore_names.append(dropped_ore.name)
 			if dropped_ore == stone:
@@ -77,47 +122,43 @@ func _on_generate_pressed():
 				gold_ore_count += 1
 			elif dropped_ore == platinum_ore:
 				platinum_ore_count += 1
-		# Выводим список всех выпавших руд
 		$ResultLabel.text = "Вы получили: %s!" % ", ".join(ore_names)
 	else:
 		$ResultLabel.text = "Ничего не выпало."
-	# Обновляем отображение количества руды
 	update_resource_display()
 	
 func get_random_ores():
-	var dropped_ores = []  # Создаем пустой массив для выпавших руд
-	for ore in ores:  # Проходим по всем рудам
-		if randf() < ore.drop_chance:  # Проверяем, выпала ли руда
-			dropped_ores.append(ore)  # Добавляем выпавшую руду в массив
-	return dropped_ores  # Возвращаем массив выпавших руд
+	var dropped_ores = []
+	for ore in ores:
+		if randf() < ore.drop_chance:
+			dropped_ores.append(ore)
+	return dropped_ores
 
-# Обновление отображения количества руды
 func update_resource_display():
-				# Обновляем отображение для Камня
 	if stone_count > 0:
 		$"../VBoxContainer/StoneLabel".text = "Stone: %d" % stone_count
 		$"../VBoxContainer/StoneLabel".visible = true
 	else:
 		$"../VBoxContainer/StoneLabel".visible = false
-	# Обновляем отображение для Железной руды
+	
 	if iron_ore_count > 0:
 		$"../VBoxContainer/IronOreLabel".text = "I: %d" % iron_ore_count
 		$"../VBoxContainer/IronOreLabel".visible = true
 	else:
 		$"../VBoxContainer/IronOreLabel".visible = false
-	# Обновляем отображение для Золотой руды
+	
 	if gold_ore_count > 0:
 		$"../VBoxContainer/GoldOreLabel".text = "G: %d" % gold_ore_count
 		$"../VBoxContainer/GoldOreLabel".visible = true
 	else:
 		$"../VBoxContainer/GoldOreLabel".visible = false
-			# Обновляем отображение для Платиновой руды
+	
 	if platinum_ore_count > 0:
 		$"../VBoxContainer/PlatinumOreLabel".text = "P: %d" % platinum_ore_count
 		$"../VBoxContainer/PlatinumOreLabel".visible = true
 	else:
 		$"../VBoxContainer/PlatinumOreLabel".visible = false
-	# Обновляем отображение для Серебряной руды
+	
 	if silver_ore_count > 0:
 		$"../VBoxContainer/SilverOreLabel".text = "S: %d" % silver_ore_count
 		$"../VBoxContainer/SilverOreLabel".visible = true
