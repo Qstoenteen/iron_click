@@ -15,8 +15,9 @@ var silver_ore_count = 0
 var gold_ore_count = 0
 var platinum_ore_count = 0
 var miners = 0  
-var hire_cost = 10 
 
+
+var hire_cost = 10 
 @onready var mining_timer = $MiningTimer
 @onready var generate_button = $GenerateButton
 
@@ -24,7 +25,7 @@ var hire_cost = 10
 var base_interval = 1.0  # Начальный интервал (1 секунда)
 var min_interval = 0.1   # Минимальный интервал
 var interval_step = 0.1  # Шаг уменьшения интервала
-
+var test_imer = 0
 func _ready():
 	var pickaxe = $"../pickaxe"
 	var block_tick = $"../mine_block"
@@ -72,6 +73,7 @@ func _on_hire_button_pressed():
 func update_mining_interval():
 	var new_interval = max(min_interval, base_interval - (miners * interval_step))
 	mining_timer.wait_time = new_interval
+	print("new interval = ", new_interval)
 	mining_timer.start()  # Перезапускаем таймер с новым интервалом
 	print("Интервал добычи обновлен: ", new_interval, " сек")  # Для отладки
 
@@ -79,7 +81,9 @@ func _on_mining_timer_timeout():
 	if miners > 0:
 		# Имитируем нажатие кнопки "КЛИК" для каждого шахтера
 		for i in range(miners):
+
 			generate_button.emit_signal("pressed")
+			await get_tree().create_timer(0.1).timeout  # Задержка 0.01 секунды (10 мс)
 		update_resource_display()
 		
 		
@@ -102,7 +106,7 @@ func _Ore_mined():
 		block._particles_tick()
 		block.block_hp =+ 100
 		block.block_live = true
-		block.depth += 1		
+		block.depth += 1
 		_on_generate_pressed()
 		set_ore_chance()
 		

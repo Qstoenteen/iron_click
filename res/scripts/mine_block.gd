@@ -3,6 +3,7 @@ extends Container
 var block_hp = 100
 var block_live = true
 var depth = 0.0
+var pickaxe_damage = 5
 @onready var timer = $CPUParticles2D/Timer
 
 # Called when the node enters the scene tree for the first time.
@@ -47,7 +48,9 @@ func _block_tick():
 	#$AnimatedSprite2D.show
 	$Block_mine_animation.play("block_mine")
 	#$mine_block_animation.play ("mine_block")
-	block_hp -= randf_range(1,15)
+	block_hp -= pickaxe_damage
+	#print(block_hp)
+	#print(pickaxe_damage)
 	
 	if block_hp <= 0:
 		block_live = false

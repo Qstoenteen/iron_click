@@ -75,7 +75,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_137co"]
 resource_name = "mine"
-length = 0.1
+length = 0.07
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -83,7 +83,7 @@ tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.1),
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667),
 "transitions": PackedFloat32Array(0.183011, 0.189465, 5.85634),
 "update": 0,
 "values": [0.0, 0.753982, 0.0]
@@ -95,7 +95,7 @@ tracks/1/path = NodePath(".:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.1),
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(31, 63), Vector2(28, 65), Vector2(31, 63)]
@@ -126,7 +126,7 @@ libraries = {
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_dkyyq")
-volume_db = -20.411
-attenuation = 2.46229
+volume_db = -35.0
+attenuation = 2.82843
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
