@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dp7bx0rrf4de8"]
+[gd_scene load_steps=8 format=3 uid="uid://dp7bx0rrf4de8"]
 
 [ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_2x2tw"]
 [ext_resource type="PackedScene" uid="uid://cu04yb3uklmsn" path="res://Scenes/pickaxe.tscn" id="2_axu44"]
 [ext_resource type="PackedScene" uid="uid://cjhns70ufat85" path="res://Scenes/planet.tscn" id="3_5n7l3"]
 [ext_resource type="PackedScene" uid="uid://bfudmjds0mlr1" path="res://Scenes/mine_block.tscn" id="4_iq1xs"]
+[ext_resource type="Texture2D" uid="uid://dkwisvpdnc774" path="res://Assets/miner.png" id="5_goxj5"]
+[ext_resource type="Script" path="res://mine_char_main.gd" id="5_i2opq"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0chcv"]
 
@@ -47,10 +49,10 @@ offset_bottom = -37.0
 grow_vertical = 2
 
 [node name="HireButton" type="Button" parent="CanvasLayer"]
-offset_left = 51.0
-offset_top = 508.0
-offset_right = 200.0
-offset_bottom = 539.0
+offset_left = 53.0
+offset_top = 442.0
+offset_right = 202.0
+offset_bottom = 473.0
 text = "Нанять"
 
 [node name="MiningTimer" type="Timer" parent="CanvasLayer"]
@@ -117,3 +119,25 @@ offset_left = -61.0
 offset_top = 57.0
 offset_right = -61.0
 offset_bottom = 57.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(55, 2.49)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -1130.0
+offset_top = 166.0
+offset_right = -45.0
+offset_bottom = 295.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("5_i2opq")
+
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer"]
+visible = false
+position = Vector2(11, 24)
+texture = ExtResource("5_goxj5")

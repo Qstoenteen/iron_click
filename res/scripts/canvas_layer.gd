@@ -56,9 +56,12 @@ func _ready():
 
 # Наем шахтера
 func _on_hire_button_pressed():
+	var miner_char = $"../HBoxContainer"
 	if stone_count >= hire_cost:
 		stone_count -= hire_cost
 		miners += 1
+		miner_char.duplicator()
+		
 		hire_cost += 5
 		$HireButton.text = "Нанять шахтера (%d камня)" % hire_cost
 		update_resource_display()
